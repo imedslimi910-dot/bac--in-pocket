@@ -3,112 +3,127 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BAC IN POCKET - نجاحك في جيبك</title>
+<title>BAC IN POCKET</title>
 <style>
-*{box-sizing:border-box;font-family:Tahoma,Arial}
-body{margin:0;background:#f4f6f9;color:#222}
+body{margin:0;background:#f4f6f9;font-family:Tahoma}
 header{background:#0b3d6e;color:#fff;padding:20px;text-align:center}
-header h1{margin:0;font-size:28px}
-header h1 span{color:#ff7a00}
-nav{display:flex;gap:8px;padding:10px;background:#fff;position:sticky;top:0;z-index:10;overflow-x:auto}
-nav button{flex:1;min-width:90px;padding:12px;border:0;border-radius:10px;background:#e8eef5;font-weight:bold;cursor:pointer}
+header span{color:#ff7a00}
+nav{display:flex;gap:6px;padding:10px;background:#fff}
+nav button{flex:1;padding:12px;border:0;border-radius:10px;background:#e8eef5;font-weight:bold}
 nav button.active{background:#0b3d6e;color:#fff}
 .page{display:none;padding:15px;max-width:800px;margin:auto}
 .page.active{display:block}
-.card{background:#fff;border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 2px 8px #0001}
-.btn{background:#ff7a00;color:#fff;border:0;padding:12px 16px;border-radius:10px;font-weight:bold;width:100%;cursor:pointer;margin-top:8px}
-.btn-blue{background:#0b3d6e}
-.badge{display:inline-block;background:#ff7a00;color:#fff;padding:4px 10px;border-radius:20px;font-size:12px}
-.badge.free{background:#1da851}
-input{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd;border-radius:10px}
-.price{font-size:32px;color:#0b3d6e;font-weight:bold;text-align:center}
+.card{background:#fff;border-radius:14px;padding:16px;margin-bottom:12px}
+.btn{background:#ff7a00;color:#fff;border:0;padding:13px;border-radius:10px;font-weight:bold;width:100%;margin-top:8px}
+.btn2{background:#0b3d6e}
+.badge{background:#ff7a00;color:#fff;padding:4px 10px;border-radius:20px;font-size:12px}
+.free{background:#1da851}
+.tabBtn{padding:10px 14px;border:1px solid #ddd;border-radius:10px;background:#fff;font-weight:bold;margin:2px}
+.tabBtn.active{background:#3D2B1F;color:#fff}
+.para{background:#FDF7EE;border:1px solid #EDE3D3;border-radius:12px;padding:14px;margin:10px 0;line-height:1.9}
 .hidden{display:none}
-.lesson p{line-height:1.9;font-size:15px}
-.lesson h3{color:#0b3d6e;border-bottom:2px solid #ff7a00;padding-bottom:5px}
-.axis-box{background:#fdf7ee;border:1px solid #ede3d3;border-radius:12px;padding:14px;margin:10px 0}
+.progress{height:8px;background:#eee;border-radius:20px;overflow:hidden}
+.progress div{height:100%;background:#0E7C7B;width:0%}
+/* ✅ تنظيم البطاقات أفقيا وعموديا */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid2 .card{margin-bottom:0;display:flex;flex-direction:column;justify-content:space-between}
+.full{grid-column:1 / -1}
 </style>
 </head>
 <body>
 <header><h1>BAC <span>IN</span> POCKET</h1><p>نجاحك في جيبك - باك آداب</p></header>
 <nav>
-<button onclick="show('home')" id="b-home" class="active">الرئيسية</button>
-<button onclick="show('philo')" id="b-philo">فلسفة</button>
-<button onclick="show('arab')" id="b-arab">عربية</button>
-<button onclick="show('hall')" id="b-hall">قاعة مراجعة</button>
-<button onclick="show('calc')" id="b-calc">حاسبة المعدل</button>
+<button id="b-home" class="active" onclick="showPage('home')">الرئيسية</button>
+<button id="b-philo" onclick="showPage('philo')">فلسفة</button>
+<button id="b-arab" onclick="showPage('arab')">عربية</button>
 </nav>
 
+<!-- الصفحة الرئيسية - بطاقات أفقية وعمودية -->
 <div id="home" class="page active">
-<div class="card"><h2>مرحبا بيك في BAC IN POCKET 🎓</h2><p>دروس دعم ومراجعة للبكالوريا آداب: فلسفة وعربية. المحور الأول مجاني، والباقي باشتراك.</p><span class="badge free">المحور الأول مجاني</span> <span class="badge">اشتراك العام: 30 د</span></div>
-<div class="card"><h3>🆕 جديد: مدخل إشكالي عام - مطلب الكلي</h3><p>المدخل الكامل لمادة الفلسفة، بالنص الأصلي.</p><button class="btn btn-blue" onclick="show('madkhal')">ادخل للمدخل الإشكالي العام</button></div>
-<div class="card"><h3>فلسفة</h3><p>مدخل + 5 محاور</p><button class="btn btn-blue" onclick="show('philo')">ادخل للفلسفة</button></div>
-<div class="card"><h3>عربية</h3><p>4 محاور</p><button class="btn btn-blue" onclick="show('arab')">ادخل للعربية</button></div>
-<div class="card"><h3>حاسبة معدل البكالوريا</h3><button class="btn" onclick="show('calc')">احسب معدلي</button></div>
+<!-- عمودي: بطاقة كاملة -->
+<div class="card full" style="text-align:center"><h2>مرحبا بيك 🎓</h2><p>فلسفة وعربية - باك آداب</p><span class="badge free">المحور الأول مجاني</span> <span class="badge">اشتراك العام: 30 د</span></div>
+
+<div class="grid2">
+<!-- أفقي: زوز جنب بعض -->
+<div class="card"><h3>📚 فلسفة</h3><p>8 محاور<br>ابدأ بالمدخل<br>المحور 1 مجاني</p><button class="btn btn2" onclick="showPage('philo')">ادخل للفلسفة</button></div>
+<div class="card"><h3>📖 عربية</h3><p>4 محاور<br>شعر - نثر<br>قصة - مسرح</p><button class="btn btn2" onclick="showPage('arab')">ادخل للعربية</button></div>
+<!-- أفقي: زوز جنب بعض -->
+<div class="card"><h3>🧮 حاسبة المعدل</h3><p>احسب معدلك<br>باك آداب</p><button class="btn" onclick="alert('سيتم إضافة الحاسبة في الخطوة الجاية')">احسب معدلك</button></div>
+<div class="card"><h3>🎥 قاعة مراجعة</h3><p>مراجعة مباشرة<br>Zoom / Meet</p><button class="btn" onclick="alert('سيتم إضافة القاعة في الخطوة الجاية')">ادخل للقاعة</button></div>
+</div>
+
+<!-- عمودي: بطاقة كاملة في الأسفل -->
+<div class="card full" style="margin-top:12px"><h3>🆕 مدخل إشكالي عام - تفاعلي</h3><p>داخل الفلسفة: مطلب الكلي - أولاً / ثانياً / ثالثاً</p><button class="btn btn2" onclick="showPage('philo')">ابدأ بالمدخل</button></div>
 </div>
 
 <div id="philo" class="page">
-<div class="card"><h2>الفلسفة - باك آداب</h2><p>ابدأ بالمدخل الإشكالي العام، وبعد ادخل للمحاور.</p><button class="btn" onclick="show('madkhal')">📖 مدخل إشكالي عام - مطلب الكلي - مجاني</button></div>
-<div id="philoList"></div>
+<div class="card"><h2>الفلسفة - باك آداب</h2><p>8 محاور - البرنامج الرسمي</p></div>
+<div class="card" style="border:2px solid #0b3d6e"><h2>📖 مدخل إشكالي عام</h2><h3>مطلب الكلي</h3><p id="progText">0 / 3 أقسام - 0%</p><div class="progress"><div id="progBar"></div></div></div>
+<div class="card"><h3>المدخل الإشكالي - اقرأ بتمعّن</h3>
+<div id="para1" class="para"><p>ما الذي يحمل على الإنسان أن يجعل من الكلي مطلباً؟ هل هو الانزعاج من كثرة الكلي أم هي الانتظارات التي يتحملها ومهاراته التي يحملها؟ أي كيف يمكن للإنسان أن يتمثل الكلي بما هو كلي والحال أنه يغرق في الجزئي؟</p></div>
+<div id="para2" class="para hidden"><p>يبدو اليومي وجودا كثيفا ومكررا يوهمنا بالتغيير في سجن من الثوابت، ويشمل هذا اليومي كل أشكال الإنتاج والاستهلاك الفكري والمادي التي تحاك منها خيوط نسيج عنكبوتي، يبتلع كل قوانا الفردية والجماعية رغم ما يبدو عليه من وهن وضعف.</p><p>والأمر هو الانخراط والاندماج، وإذا كان المرء ينخرط في اليومي على نحو عفوي، فإن استجابته لمقتضياته تجعله يتماهى معه إلى حد يشعر معه بأن هذا الانخراط هو شرط تحقيق إنسانيته.</p></div>
+<div id="para3" class="para hidden"><p>ولكن لما كان الانتقال من اليومي إلى الفلسفي وهو الانتقال من السكون والراتبة إلى السؤال، كان من الضروري أن يرمي الفكر بنفسه من الأوهام والظنون إلى مستوى الحقائق، ولعل هذا ما يجعل مفارقة العالم الحسي وما يتسم به من كثرة واختلاف وتنوع أول شروط فعل التفلسف بما هو طلب الحكمة نظريا وعمليا.</p><p>يمثل الكلي الإشكاليات والإحداثيات المحورية للبرنامج، أي أنه بمثابة الخيط الذي يربط بين مختلف المسائل التي يتألف منها البرنامج.</p></div>
+<button class="btn btn2" id="nextBtn" onclick="nextPara()">كشف الفقرة التالية</button>
 </div>
-
-<!-- MADKHAL -->
-<div id="madkhal" class="page">
-<div class="card"><button class="btn btn-blue" onclick="show('philo')">← ارجع للفلسفة</button><h2>مدخل إشكالي عام</h2><h3>مطلب الكلي</h3><p>وحدة البداية • الفلسفة باكالوريا • تم الحفاظ على النص الأصلي دون أي تغيير</p></div>
-
-<div class="card lesson">
-<h3>أولاً: من اليومي إلى الفلسفي</h3>
-<p>ما الذي يحمل على الإنسان أن يجعل من الكلي مطلباً؟ هل هو الانزعاج من كثرة الكلي أم هي الانتظارات التي يتحملها ومهاراته التي يحملها؟ أي كيف يمكن للإنسان أن يتمثل الكلي بما هو كلي والحال أنه يغرق في الجزئي؟ أليس الكلي مكونا تكوينا إشكاليا مفتوحا على إعادة صياغته على العمق الإشكالي الذي يفصله على ما يتعلق فيه من تضمين إدعاء يتحول بموجبه إلى كلي مفرغ من الكلية والكونية.</p>
-<p>يبدو اليومي وجودا كثيفا ومكررا يوهمنا بالتغيير في سجن من الثوابت، ويشمل هذا اليومي كل أشكال الإنتاج والاستهلاك الفكري والمادي التي تحاك منها خيوط نسيج عنكبوتي، يبتلع كل قوانا الفردية والجماعية رغم ما يبدو عليه من وهن وضعف.</p>
-<p>والأمر هو الانخراط والاندماج، وإذا كان المرء ينخرط في اليومي على نحو عفوي، فإن استجابته لمقتضياته تجعله يتماهى معه إلى حد يشعر معه بأن هذا الانخراط هو شرط تحقيق إنسانيته.</p>
-<p>ولكن لما كان الانتقال من اليومي إلى الفلسفي وهو الانتقال من السكون والراتبة إلى السؤال، كان من الضروري أن يرمي الفكر بنفسه من الأوهام والظنون إلى مستوى الحقائق، ولعل هذا ما يجعل مفارقة العالم الحسي وما يتسم به من كثرة واختلاف وتنوع أول شروط فعل التفلسف بما هو طلب الحكمة نظريا وعمليا.</p>
-</div>
-
-<div class="card lesson">
-<h3>ثانياً: الكلي - الخيط الرابط للبرنامج</h3>
-<p>يمثل الكلي الإشكاليات والإحداثيات المحورية للبرنامج، أي أنه بمثابة الخيط الذي يربط بين مختلف المسائل التي يتألف منها البرنامج.</p>
-<p>وعلى هذا الأساس، ينقسم البرنامج إلى المسائل التالية:</p>
-<p>وكل مسألة من هذه المسائل تمثل إشكالية محورية تبرز من خلالها مجموعة من المحاور تحمل كل واحدة منها جملة من الرهانات. وعلى هذا الأساس يكون التفريع العام للبرنامج كالتالي:</p>
-</div>
-
 <div class="card"><h3>التفريع العام للبرنامج</h3>
-<div class="axis-box"><h3>أولاً: مسألة الإنساني بين الكثرة والوحدة</h3><p>• محور الإنية والغيرية<br>• محور التواصل والأنظمة الرمزية<br>• محور الخصوصية والكونية</p></div>
-<div class="axis-box"><h3>ثانياً: مسألة العلم بين الحقيقة والنمذجة</h3><p>1. معنى النمذجة<br>2. أبعاد النمذجة:<br>أ. البعد التركيبي<br>ب. البعد الدلالي<br>ج. البعد التداولي<br>3. حدود النمذجة:<br>أ. المحدود الإبستيمولوجية<br>ب. المحدود الأنطولوجية</p></div>
-<div class="axis-box"><h3>ثالثاً: مسألة القيم بين النسبي والمطلق</h3><p>1. العمل: النجاعة والعدالة<br>2. الدولة: السياسة والمواطنة<br>3. الأخلاق: الخير والسعادة<br>4. الفن: الجمال والحقيقة</p></div>
+<button class="tabBtn" id="tab0" onclick="openTab(0)">أولاً</button>
+<button class="tabBtn" id="tab1" onclick="openTab(1)">ثانياً</button>
+<button class="tabBtn" id="tab2" onclick="openTab(2)">ثالثاً</button>
+<div id="tabContent" style="margin-top:12px"><p style="text-align:center;color:#888">اختر أولاً أو ثانياً أو ثالثاً</p></div>
+</div>
+<div id="finishBox" class="card hidden" style="background:#3D2B1F;color:#fff"><h3>أحسنت - أكملت المدخل</h3><p>من اليومي إلى الفلسفي، ومن الجزئي إلى مطلب الكلي</p><p>توا تنجم تبدا في المحور الأول في الأسفل 👇</p></div>
+<div class="card" style="background:#0b3d6e;color:#fff"><h2 style="color:#fff">محاور الفلسفة - 8 محاور</h2><p>بعد المدخل، ابدأ من هنا</p></div>
+<div class="card"><h3>1. الإنية والغيرية <span class="badge free">مجاني</span></h3><button class="btn btn2" onclick="alert('سيتم إضافة ملخص الإنية والغيرية هنا')">ادخل للمحور</button></div>
+<div class="card"><h3>2. التواصل والأنظمة الرمزية <span class="badge">اشتراك</span></h3><button class="btn" onclick="alert('هذا المحور بالاشتراك - 30 د')">اشترك باش تشوف المحور</button></div>
+<div class="card"><h3>3. الخصوصية والكونية <span class="badge">اشتراك</span></h3><button class="btn" onclick="alert('هذا المحور بالاشتراك - 30 د')">اشترك باش تشوف المحور</button></div>
+<div class="card"><h3>4. العلم بين الحقيقة والنمذجة <span class="badge">اشتراك</span></h3><button class="btn" onclick="alert('هذا المحور بالاشتراك - 30 د')">اشترك باش تشوف المحور</button></div>
+<div class="card"><h3>5. العمل: النجاعة والعدالة <span class="badge">اشتراك</span></h3><button class="btn" onclick="alert('هذا المحور بالاشتراك - 30 د')">اشترك باش تشوف المحور</button></div>
+<div class="card"><h3>6. الدولة: السيادة والمواطنة <span class="badge">اشتراك</span></h3><button class="btn" onclick="alert('هذا المحور بالاشتراك - 30 د')">اشترك باش تشوف المحور</button></div>
+<div class="card"><h3>7. الأخلاق: الخير والسعادة <span class="badge">اشتراك</span></h3><button class="btn" onclick="alert('هذا المحور بالاشتراك - 30 د')">اشترك باش تشوف المحور</button></div>
+<div class="card"><h3>8. الفن: الجمال والحقيقة <span class="badge">اشتراك</span></h3><button class="btn" onclick="alert('هذا المحور بالاشتراك - 30 د')">اشترك باش تشوف المحور</button></div>
 </div>
 
-<div class="card" style="background:#0b3d6e;color:#fff"><h3 style="color:#fff">✅ أحسنت — أكملت الدرس</h3><p>من اليومي إلى الفلسفي، ومن الجزئي إلى مطلب الكلي</p><p>جاهز للمناقشة في القسم</p><button class="btn" onclick="show('philo')">انتقل للمحور الأول: الإنسان</button></div>
-</div>
-
-<div id="arab" class="page"><div class="card"><h2>العربية - باك آداب</h2><p>المحتوى سيتم إضافته لاحقا.</p></div><div id="arabList"></div></div>
-<div id="hall" class="page"><div class="card"><h2>قاعة مراجعة افتراضية 🎥</h2><p>مواعيد المراجعة: سيتم إضافة المواعيد لاحقا.</p><button class="btn" onclick="alert('سيتم إضافة رابط القاعة قريبا')">ادخل للقاعة الآن</button></div></div>
-<div id="calc" class="page"><div class="card"><h2>حاسبة معدل البكالوريا - آداب</h2>
-<label>العربية (ضارب 4)</label><input type="number" id="ar" placeholder="مثال 12">
-<label>الفلسفة (ضارب 4)</label><input type="number" id="ph" placeholder="مثال 11">
-<label>الفرنسية (ضارب 2)</label><input type="number" id="fr" placeholder="مثال 10">
-<label>الانجليزية (ضارب 2)</label><input type="number" id="en" placeholder="مثال 10">
-<label>التاريخ والجغرافيا (ضارب 2)</label><input type="number" id="hg" placeholder="مثال 11">
-<label>التربية الإسلامية (ضارب 1)</label><input type="number" id="is" placeholder="مثال 14">
-<label>مادة اختيارية (ضارب 1)</label><input type="number" id="op" placeholder="مثال 15">
-<label>التربية البدنية (ضارب 1)</label><input type="number" id="sp" placeholder="مثال 16">
-<button class="btn" onclick="calcMoy()">احسب المعدل</button><h3 id="res" style="text-align:center"></h3><p id="msg" style="text-align:center"></p></div></div>
-
-<div id="axis" class="page"><div class="card"><button class="btn btn-blue" onclick="show(lastPage)">← ارجع</button><h2 id="axisTitle"></h2></div><div class="card"><h3>📄 ملخص</h3><p>سيتم إضافة المحتوى لاحقا.</p></div><div class="card"><h3>✍️ تمارين</h3><p>سيتم إضافة المحتوى لاحقا.</p></div><div class="card"><h3>📝 اختبار</h3><button class="btn" onclick="alert('سيتم إضافة الاختبار قريبا')">ابدأ الاختبار</button></div><div class="card"><h3>📚 امتحانات سابقة</h3><p>سيتم إضافة المحتوى لاحقا.</p></div><div id="lockBox" class="card hidden"><h3>🔒 هذا المحور بالاشتراك</h3><p>المحور الأول مجاني. باش تشوف باقي المحاور، اشترك.</p><div class="price">30 د / عام</div><button class="btn" onclick="showPay()">اشترك الآن</button></div><div id="payBox" class="card hidden"><h3>طرق الدفع</h3><button class="btn btn-blue">الدفع بـ D17</button><button class="btn btn-blue">بطاقة بنكية</button><button class="btn btn-blue">تحويل بنكي / بريدي</button><button class="btn">تواصل على WhatsApp</button></div></div>
+<div id="arab" class="page"><div class="card"><h2>العربية</h2><p>المحتوى سيتم إضافته لاحقا.</p></div></div>
 
 <script>
-let lastPage='home';
-let philoAxes=['الإنسان','الدولة','الأخلاق','العمل','الحقيقة'];
-let arabAxes=['المحور 1 - الشعر','المحور 2 - النثر','المحور 3 - القصة','المحور 4 - المسرح'];
-function show(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));let b=document.getElementById('b-'+id);if(b)b.classList.add('active');window.scrollTo(0,0);}
-function build(){
-let ph=document.getElementById('philoList');ph.innerHTML='';
-philoAxes.forEach((a,i)=>{let free=i===0;ph.innerHTML+=`<div class="card"><h3>${a} ${free?'<span class="badge free">مجاني</span>':'<span class="badge">اشتراك</span>'}</h3><button class="btn ${free?'btn-blue':''}" onclick="openAxis('philo','${a}',${free})">${free?'ادخل للمحور':'اشترك باش تشوف المحور'}</button></div>`;});
-let ar=document.getElementById('arabList');ar.innerHTML='';
-arabAxes.forEach((a,i)=>{let free=i===0;ar.innerHTML+=`<div class="card"><h3>${a} ${free?'<span class="badge free">مجاني</span>':'<span class="badge">اشتراك</span>'}</h3><button class="btn ${free?'btn-blue':''}" onclick="openAxis('arab','${a}',${free})">${free?'ادخل للمحور':'اشترك باش تشوف المحور'}</button></div>`;});
+var paraStep = 1;
+var seen0 = false; var seen1 = false; var seen2 = false;
+function showPage(id){
+  var pages = document.querySelectorAll('.page');
+  for(var i=0;i<pages.length;i++){ pages[i].classList.remove('active'); }
+  document.getElementById(id).classList.add('active');
+  var btns = document.querySelectorAll('nav button');
+  for(var j=0;j<btns.length;j++){ btns[j].classList.remove('active'); }
+  var b = document.getElementById('b-'+id);
+  if(b){ b.classList.add('active'); }
+  window.scrollTo(0,0);
 }
-function openAxis(type,title,free){lastPage=type;document.getElementById('axisTitle').innerText=title;document.getElementById('lockBox').classList.toggle('hidden',free);document.getElementById('payBox').classList.add('hidden');show('axis');}
-function showPay(){document.getElementById('payBox').classList.remove('hidden');}
-function calcMoy(){let g=(id)=>parseFloat(document.getElementById(id).value)||0;let total=g('ar')*4+g('ph')*4+g('fr')*2+g('en')*2+g('hg')*2+g('is')*1+g('op')*1+g('sp')*1;let moy=total/17;document.getElementById('res').innerText='معدلك: '+moy.toFixed(2)+' / 20';document.getElementById('msg').innerText=moy>=10?'🎉 مبروك، ناجح!':'مازلت تنجم تنجح، ركز على الفلسفة والعربية خاطر ضاربهم 4.';}
-build();
+function nextPara(){
+  if(paraStep==1){ document.getElementById('para2').classList.remove('hidden'); paraStep=2; }
+  else if(paraStep==2){ document.getElementById('para3').classList.remove('hidden'); paraStep=3; document.getElementById('nextBtn').innerText='تم كشف كل الفقرات'; }
+}
+function openTab(i){
+  if(i==0) seen0=true;
+  if(i==1) seen1=true;
+  if(i==2) seen2=true;
+  document.getElementById('tab0').classList.remove('active');
+  document.getElementById('tab1').classList.remove('active');
+  document.getElementById('tab2').classList.remove('active');
+  document.getElementById('tab'+i).classList.add('active');
+  var html = '';
+  if(i==0){ html = '<div class="para"><h3>مسألة الإنساني بين الكثرة والوحدة</h3><p>محور الإنية والغيرية<br>محور التواصل والأنظمة الرمزية<br>محور الخصوصية والكونية</p></div>'; }
+  if(i==1){ html = '<div class="para"><h3>مسألة العلم بين الحقيقة والنمذجة</h3><p>1. معنى النمذجة<br>2. أبعاد النمذجة: التركيبي - الدلالي - التداولي<br>3. حدود النمذجة: الإبستيمولوجية - الأنطولوجية</p></div>'; }
+  if(i==2){ html = '<div class="para"><h3>مسألة القيم بين النسبي والمطلق</h3><p>5. العمل: النجاعة والعدالة<br>6. الدولة: السيادة والمواطنة<br>7. الأخلاق: الخير والسعادة<br>8. الفن: الجمال والحقيقة</p></div>'; }
+  document.getElementById('tabContent').innerHTML = html;
+  var count = 0;
+  if(seen0) count++;
+  if(seen1) count++;
+  if(seen2) count++;
+  var pct = Math.round(count/3*100);
+  document.getElementById('progBar').style.width = pct + '%';
+  document.getElementById('progText').innerText = count + ' / 3 أقسام - ' + pct + '%';
+  if(count==3){ document.getElementById('finishBox').classList.remove('hidden'); }
+}
 </script>
 </body>
 </html>
