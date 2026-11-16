@@ -1,0 +1,15 @@
+* { box-sizing: border-box; font-family: sans-serif; }
+body { margin: 0; background: #0a2a5e; color: white; text-align: center; padding: 15px; }
+header { margin-bottom: 15px; }
+header h1 { color: gold; margin: 5px; font-size: 32px; }
+.card { background: white; color: #0a2a5e; border-radius: 16px; padding: 16px; margin: 12px auto; max-width: 500px; text-align: right; }
+input, select, textarea { width: 100%; padding: 12px; margin: 6px 0; border-radius: 10px; border: 1px solid #ccc; font-size: 16px; }
+button { width: 100%; padding: 12px; margin: 6px 0; border: none; border-radius: 10px; background: #0a2a5e; color: white; font-size: 16px; cursor: pointer; }
+button.gold, #addContentBtn { background: gold; color: black; font-weight: bold; font-size: 19px; }
+.hint { font-size: 13px; color: #666; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.grid button { background: #f0f0f0; color: #0a2a5e; }
+.stats { display: flex; justify-content: space-between; background: #fff3b0; padding: 10px; border-radius: 10px; font-weight: bold; }
+.progress { background: #eee; height: 12px; border-radius: 10px; overflow: hidden; margin: 8px 0; }
+#progressBar { background: gold; height: 12px; width: 0%; }
+.lesson { background: #f8f8ff; border: 1px solid #ddd; border-radius: 10px; padding: 10px; margin: 6px 0; }
