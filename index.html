@@ -104,7 +104,24 @@
 
 <button onclick="logout()">خروج</button>
 </div>
-
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const firebaseConfig = {
+  apiKey: "AlzSyAl2sCPqiw-_PKQQPrKl-UFBYOEXfl95Dw",
+  authDomain: "bac-in-pocket.firebaseapp.com",
+  projectId: "bac-in-pocket",
+  storageBucket: "bac-in-pocket.firebasestorage.app",
+  messagingSenderId: "812454691473",
+  appId: "1:812454691473:web:a9OecOcc24f99fd5a6753O",
+  measurementId: "G-Y7E06POPVG"
+};
+const app = initializeApp(firebaseConfig);
+window.firebaseAuth = getAuth(app);
+window.firebaseDB = getFirestore(app);
+console.log("Firebase connecté !");
+</script>
 <script src="script.js"></script>
 </body>
 </html>
