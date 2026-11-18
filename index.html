@@ -1,15 +1,301 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>باك آداب: مراجعة ودعم</title>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<head><style>
+@font-face {
+  font-family: "Optimistic";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/OptimisticAI_VF_Optimized.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Optimistic Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/OptimisticMono_W_TextRegular.woff2") format("woff2");
+}
+:where(html) {
+  font-family: "Optimistic", system-ui, sans-serif;
+}
+:where(code, pre, kbd, samp) {
+  font-family: "Optimistic Mono", ui-monospace, monospace;
+}
+</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BAC IN POCKET - نجاحك في جيبك | باك آداب</title>
+<style>
+*{box-sizing:border-box;font-family:'Segoe UI',Tahoma,Arial}
+body{margin:0;background:#F2F7FB;color:#122}
+header{background:#0B5C8A;color:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10}
+.logo{width:52px;height:52px;background:#fff;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px}
+header h1{margin:0;font-size:20px} header p{margin:2px 0 0;opacity:.9;font-size:13px}
+.points{background:#FF7A1A;padding:6px 12px;border-radius:20px;font-weight:800}
+.wrap{max-width:900px;margin:auto;padding:14px}
+.card{background:#fff;border-radius:18px;padding:16px;box-shadow:0 4px 18px rgba(0,0,0,.07);margin-bottom:14px}
+.banner{background:linear-gradient(135deg,#0B5C8A,#FF7A1A);color:#fff;border-radius:18px;padding:18px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(min-width:700px){.grid{grid-template-columns:1fr 1fr 1fr}}
+.subj{border-radius:18px;padding:16px;color:#fff;cursor:pointer;min-height:150px;display:flex;flex-direction:column;justify-content:space-between}
+.subj b{font-size:19px}.subj small{opacity:.9}
+.bar{height:8px;background:rgba(255,255,255,.4);border-radius:20px;overflow:hidden}.bar i{display:block;height:100%;background:#fff}
+button{border:0;border-radius:12px;padding:11px 16px;font-weight:800;cursor:pointer}
+.btn-blue{background:#0B5C8A;color:#fff}.btn-orange{background:#FF7A1A;color:#fff}.btn-light{background:#EAF2F8;color:#0B5C8A}
+input,select,textarea{width:100%;padding:12px;border:2px solid #DCE9F2;border-radius:12px;margin:6px 0;font-size:15px}
+.tabs{display:flex;gap:8px;overflow:auto;padding-bottom:6px}.tabs button{white-space:nowrap;background:#EAF2F8}
+.tabs button.on{background:#0B5C8A;color:#fff}
+.item{border:1px solid #E6EEF4;border-radius:14px;padding:12px;margin:8px 0;display:flex;justify-content:space-between;gap:10px}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;box-shadow:0 -2px 16px rgba(0,0,0,.1);z-index:20}
+nav button{flex:1;background:none;padding:12px 4px;font-size:13px}
+nav button.on{color:#FF7A1A}
+.hidden{display:none!important}
+.chat{height:220px;overflow:auto;background:#F7FAFC;border-radius:12px;padding:10px}
+.msg{background:#fff;padding:8px 10px;border-radius:12px;margin:6px 0;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.badge{display:inline-block;background:#FFF3E6;color:#E76A00;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:800;margin:2px}
+</style>
 </head>
 <body>
-<header><button class="ib" id="hm" aria-label="الرئيسية">⌂</button><h1>باك آداب</h1><button class="ib" id="th" aria-label="الوضع الليلي">◐</button></header>
-<main id="app"></main>
-<script src="script.js"></script>
-</body>
+<header>
+<div class="logo">🎒</div>
+<div style="flex:1"><h1>BAC IN POCKET</h1><p>نجاحك في جيبك • باك آداب</p></div>
+<div class="points">⭐ <span id="pts">120</span> • 🔥 <span id="streak">7</span></div>
+</header>
+<div class="wrap" style="padding-bottom:90px">
+
+<!-- LOGIN -->
+<div id="page-login" class="card" style="text-align:center;padding:28px">
+<h2 style="font-size:26px;margin:6px">أهلا بيك في BAC IN POCKET 🎓</h2>
+<p>دروس دعم ومراجعة للبكالوريا آداب - الكل مع بعضنا ننجحو</p>
+<div class="banner"><b style="font-size:22px">⏳ باقي <span id="countdown">200</span> يوم على الباك</b><br>شد روحك، كل يوم مراجعة يقربك من النجاح 💪</div>
+<br>
+<input id="nickname" placeholder="اكتب اسمك المستعار... مثلا: أمين - باك آداب">
+<button class="btn-orange" style="width:100%;font-size:17px" onclick="enterApp()">ادخل و ابدا المراجعة 🚀</button>
+<p style="font-size:13px;color:#666">دخول سريع بلا إيميل ولا كلمة سر</p>
+<button class="btn-light" onclick="showAdminLogin()">دخول الأدمن 🔐</button>
+<div id="adminBox" class="hidden" style="margin-top:12px;background:#FFF7ED;padding:14px;border-radius:14px">
+<p><b>دخول الأدمن</b> - الكود الافتراضي: <b>1234</b></p>
+<input id="adminCode" placeholder="اكتب الكود السري" type="password">
+<button class="btn-blue" style="width:100%" onclick="checkAdmin()">دخول لوحة الأدمن</button>
+</div>
+</div>
+
+<!-- HOME -->
+<div id="page-home" class="hidden">
+<div class="card"><input id="search" placeholder="🔍 لوّج على درس... مثلا: الحرية، الشعر، الثورة" oninput="doSearch(this.value)">
+<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+<button class="btn-light" onclick="showPage('favs')">⭐ مفضلتي (<span id="favCount">0</span>)</button>
+<button class="btn-light" onclick="showPage('rooms')">💬 غرفة المراجعة</button>
+<button class="btn-light" onclick="showPage('leader')">🏆 لوحة الصدارة</button>
+<button class="btn-light" onclick="showPage('plans')">💎 الاشتراكات</button>
+</div></div>
+
+<div class="card" style="display:flex;justify-content:space-between;align-items:center">
+<div><b>🍅 مؤقت Pomodoro</b><br><span id="timer" style="font-size:28px;font-weight:900;color:#FF7A1A">25:00</span><br><small>25 دقيقة تركيز + 5 راحة - الكل يراجع مع بعضو</small></div>
+<button class="btn-orange" onclick="startTimer()">ابدأ التركيز ▶</button>
+</div>
+
+<div class="card"><b>📅 جدول الأسبوع</b><br>
+<span class="badge">السبت: فلسفة</span> <span class="badge">الأحد: عربية</span> <span class="badge">الاثنين: تاريخ + جغرافيا</span> <span class="badge">الثلاثاء: فرنسية</span> <span class="badge">الأربعاء: انجليزية</span> <span class="badge">الخميس: تفكير إسلامي</span>
+</div>
+
+<h3>📚 المواد - 7 مواد</h3>
+<div class="grid" id="subjects"></div>
+<div class="card"><b>🏅 شاراتك</b><br><span class="badge">🥉 البداية القوية</span> <span class="badge">🥈 ملك الفلسفة</span> <span class="badge">🔥 7 أيام متتالية</span></div>
+</div>
+
+<!-- SUBJECT -->
+<div id="page-subject" class="hidden">
+<button class="btn-light" onclick="showPage('home')">⬅ رجوع</button>
+<h2 id="subjTitle"></h2><p id="subjDesc"></p>
+<h3>المحاور:</h3><div id="axes"></div>
+<div id="axisContent"></div>
+</div>
+
+<!-- ROOMS -->
+<div id="page-rooms" class="hidden">
+<button class="btn-light" onclick="showPage('home')">⬅ رجوع</button>
+<h2>💬 غرفة المراجعة الافتراضية</h2>
+<div class="banner">حصة جماعية كل يوم <b>20:00 - 22:00</b> • الغرف محلولة ديما • سؤال اليوم: ما هو مفهوم الحرية عند سارتر؟</div>
+<div class="card"><b>الحاضرون الآن (14):</b> أمين، مريم، يوسف، سارة، نور، آدم... + أنت 🟢</div>
+<div class="card"><div class="chat" id="chatBox">
+<div class="msg"><b>مريم:</b> شكون فاهم درس الإنسان والعالم؟</div>
+<div class="msg"><b>يوسف:</b> أنا فاهمو، نجم نفسرهولك</div>
+<div class="msg"><b>سارة:</b> غدوة نراجعو مقال العربية مع بعضنا؟ 🔥</div>
+</div>
+<div style="display:flex;gap:8px"><input id="chatInput" placeholder="اكتب سؤالك أو إجابتك..."><button class="btn-orange" onclick="sendChat()">إرسال</button></div>
+<button class="btn-light" style="margin-top:8px;width:100%" onclick="alert('تم إرسال طلب الشرح للأدمن ✅')">🙋 اطلب شرح</button>
+</div>
+</div>
+
+<!-- LEADER -->
+<div id="page-leader" class="hidden">
+<button class="btn-light" onclick="showPage('home')">⬅ رجوع</button>
+<h2>🏆 لوحة الصدارة - هذا الأسبوع</h2>
+<div class="card"><div class="item"><b>🥇 مريم</b><span>1240 نقطة</span></div><div class="item"><b>🥈 أمين</b><span>1120 نقطة</span></div><div class="item"><b>🥉 يوسف</b><span>980 نقطة</span></div><div class="item"><b>4. سارة</b><span>870 نقطة</span></div><div class="item"><b>5. أنت</b><span id="myPts">120 نقطة</span></div></div>
+</div>
+
+<!-- FAVS -->
+<div id="page-favs" class="hidden">
+<button class="btn-light" onclick="showPage('home')">⬅ رجوع</button>
+<h2>⭐ مفضلتي</h2><div class="card" id="favList">مازال ما حفظت حتى درس. اضغط على ⭐ في أي درس باش تحفظو هنا.</div>
+</div>
+
+<!-- PLANS -->
+<div id="page-plans" class="hidden">
+<button class="btn-light" onclick="showPage('home')">⬅ رجوع</button>
+<h2>💎 الاشتراكات</h2>
+<div class="card"><b>مجاني - اكتشف</b><br>درس واحد مجاني في كل مادة + غرفة عامة<br><b>0 د</b></div>
+<div class="card" style="border:3px solid #FF7A1A"><b>⭐ VIP - باك في الجيب</b><br>الكل مفتوح: دروس + فيديو + QCM + باكات + غرف المواد + نقاط x2<br><b>شهري: <span class="priceM">15</span> د • 3 شهور: <span class="price3">35</span> د • عام: <span class="priceY">90</span> د</b><br><br>
+<button class="btn-orange" style="width:100%" onclick="alert('للاشتراك: ابعث واتساب للأدمن وسيتم تفعيل حسابك ✅')">اشترك الآن عبر واتساب 📱</button></div>
+</div>
+
+<!-- ADMIN -->
+<div id="page-admin" class="hidden">
+<h2>🔐 لوحة الأدمن - BAC IN POCKET</h2>
+<div class="card"><b>📊 إحصائيات:</b> تلامذة اليوم: 48 • أكثر مادة مراجعة: الفلسفة • رسائل اليوم: 132</div>
+<div class="card"><h3>➕ إضافة محتوى جديد - من الهاتف</h3>
+<select id="addSubj"><option>الفلسفة</option><option>العربية</option><option>التاريخ</option><option>الجغرافيا</option><option>الفرنسية</option><option>الانجليزية</option><option>التفكير الإسلامي</option></select>
+<select id="addAxis"><option>المحور 1</option><option>المحور 2</option><option>المحور 3</option></select>
+<select id="addType"><option>درس ملخص</option><option>فيديو</option><option>تمرين + إصلاح</option><option>باك قديم</option><option>QCM</option><option>مقال نموذجي</option></select>
+<input id="addTitle" placeholder="عنوان المحتوى...">
+<textarea id="addText" placeholder="اكتب نص الدرس هنا..."></textarea>
+<label><b>📁 حمّل من الهاتف:</b> صورة / فيديو / PDF / HTML</label>
+<input type="file" accept="image/*,video/*,.pdf,.html">
+<label><b>🔗 رابط YouTube:</b></label><input id="addYT" placeholder="https://youtube.com/...">
+<label><b>💻 الصق كود HTML:</b></label><textarea id="addHTML" placeholder="<h1>درسي...</h1>"></textarea>
+<button class="btn-orange" style="width:100%" onclick="addContent()">نشر المحتوى ✅</button>
+<div id="addResult"></div>
+</div>
+<div class="card"><h3>💰 تبديل الأسعار (من لوحة التحكم)</h3>
+شهري: <input id="pM" value="15"> 3 شهور: <input id="p3" value="35"> عام: <input id="pY" value="90">
+<button class="btn-blue" onclick="savePrices()">حفظ الأسعار</button></div>
+<div class="card"><h3>✅ تفعيل اشتراك تلميذ</h3><input id="actName" placeholder="اسم التلميذ"><select><option>شهر</option><option>3 شهور</option><option>عام</option></select><button class="btn-blue" onclick="alert('تم تفعيل الاشتراك ✅')">تفعيل</button></div>
+<div class="card"><h3>📣 بعث إشعار للكل</h3><input id="notif" placeholder="مثلا: اليوم 20:00 مراجعة فلسفة"><button class="btn-orange" onclick="alert('تم بعث الإشعار للكل 📣')">بعث</button></div>
+<button class="btn-light" style="width:100%" onclick="showPage('home')">خروج من الأدمن</button>
+</div>
+
+</div>
+<nav id="bottomNav" class="hidden">
+<button class="on" onclick="showPage('home')">🏠<br>الرئيسية</button>
+<button onclick="showPage('home')">📚<br>المواد</button>
+<button onclick="showPage('rooms')">💬<br>الغرف</button>
+<button onclick="showPage('favs')">⭐<br>مفضلتي</button>
+<button onclick="showPage('leader')">🏆<br>الصدارة</button>
+</nav>
+
+<script>
+let pts=120, favs=[];
+const subjects=[
+{ name:"العربية", color:"#0B5C8A", icon:"📖", prog:40, lessons:12, ex:8, axes:["الشعر الحديث","النثر","النقد الأدبي"]},
+{ name:"الفلسفة", color:"#7C3AED", icon:"🧠", prog:55, lessons:14, ex:10, axes:["الإنسان والعالم","الأخلاق","المعرفة والعمل"]},
+{ name:"التاريخ", color:"#B45309", icon:"🏛️", prog:30, lessons:10, ex:6, axes:["تونس والعالم المعاصر","الحروب العالمية","الاستقلال"]},
+{ name:"الجغرافيا", color:"#15803D", icon:"🌍", prog:25, lessons:9, ex:7, axes:["المجال والتنمية","السكان","العولمة"]},
+{ name:"الفرنسية", color:"#0284C7", icon:"🇫🇷", prog:35, lessons:11, ex:9, axes:["Essai","Texte","Grammaire"]},
+{ name:"الانجليزية", color:"#DC2626", icon:"🇬🇧", prog:45, lessons:10, ex:8, axes:["Writing","Reading","Grammar"]},
+{ name:"التفكير الإسلامي", color:"#0F766E", icon:"🕌", prog:20, lessons:8, ex:5, axes:["الإيمان والعمل","القيم","الحضارة الإسلامية"]},
+];
+let contents={
+"الفلسفة|الإنسان والعالم":[
+ {type:"درس ملخص",title:"درس: الإنسان والعالم - ملخص كامل",desc:"مفهوم الإنسان، العالم، العلاقة بيناتهم + أمثلة"},
+ {type:"QCM",title:"QCM: الإنسان والعالم - 10 أسئلة",desc:"تصحيح فوري + 5 نقاط لكل إجابة صحيحة"},
+ {type:"مقال نموذجي",title:"مقال: هل الإنسان حر؟",desc:"منهجية كاملة: مقدمة - تحليل - خاتمة"},
+ {type:"باك قديم",title:"باك 2024 - فلسفة",desc:"الموضوع + الإصلاح"},
+],
+"العربية|الشعر الحديث":[
+ {type:"درس ملخص",title:"الشعر الحديث - خصائصه",desc:"الشابي، أبو القاسم، التجديد"},
+ {type:"تمرين + إصلاح",title:"تمرين تحليل قصيدة",desc:"قصيدة + أسئلة + إصلاح مفصل"},
+ {type:"QCM",title:"QCM عربية",desc:"10 أسئلة"},
+],
+"التاريخ|تونس والعالم المعاصر":[
+ {type:"درس ملخص",title:"تونس بعد الاستقلال",desc:"ملخص + تواريخ مهمة"},
+ {type:"باك قديم",title:"باك 2023 تاريخ",desc:"موضوع + إصلاح"},
+],
+};
+function renderSubjects(){
+ document.getElementById('subjects').innerHTML=subjects.map((s,i)=>`<div class="subj" style="background:${s.color}" onclick="openSubject(${i})"><div><div style="font-size:30px">${s.icon}</div><b>${s.name}</b><br><small>${s.lessons} درس • ${s.ex} تمارين</small></div><div><div class="bar"><i style="width:${s.prog}%"></i></div><small>كملت ${s.prog}%</small><br><b>واصل ⬅</b></div></div>`).join('');
+}
+function showPage(p){
+ ['login','home','subject','rooms','leader','favs','plans','admin'].forEach(x=>document.getElementById('page-'+x).classList.add('hidden'));
+ document.getElementById('page-'+p).classList.remove('hidden');
+ document.getElementById('bottomNav').classList.toggle('hidden', p==='login');
+ window.scrollTo(0,0);
+}
+function enterApp(){
+ let n=document.getElementById('nickname').value.trim();
+ if(!n){alert('اكتب اسمك المستعار أولا 🙂');return;}
+ localStorage.setItem('bac_name',n); renderSubjects(); showPage('home');
+}
+function showAdminLogin(){document.getElementById('adminBox').classList.remove('hidden');}
+function checkAdmin(){
+ if(document.getElementById('adminCode').value==='1234'){showPage('admin');}else{alert('الكود غالط ❌ - الكود الافتراضي 1234');}
+}
+function openSubject(i){
+ let s=subjects[i]; showPage('subject');
+ document.getElementById('subjTitle').textContent=s.icon+' '+s.name;
+ document.getElementById('subjDesc').textContent=`${s.lessons} درس • ${s.ex} تمرين • كملت ${s.prog}%`;
+ document.getElementById('axes').innerHTML=s.axes.map(a=>`<button class="btn-blue" style="margin:4px" onclick="openAxis('${s.name}','${a}')">${a}</button>`).join('');
+ document.getElementById('axisContent').innerHTML='<p>اختر محور باش تشوف محتواه 👆</p>';
+}
+function openAxis(subj,axis){
+ let key=subj+'|'+axis;
+ let list=contents[key]||[{type:"درس ملخص",title:"درس جديد: "+axis,desc:"سيتم إضافة محتوى قريبا من الأدمن"}];
+ document.getElementById('axisContent').innerHTML=`<h3>${axis}</h3>
+ <div class="tabs"><button class="on">الكل</button><button>دروس</button><button>فيديو</button><button>تمارين</button><button>QCM</button><button>باكات</button><button>مقالات</button></div>
+ ${list.map((c,idx)=>`<div class="item"><div><b>${c.type}:</b> ${c.title}<br><small>${c.desc}</small></div><div style="display:flex;gap:6px"><button onclick="toggleFav(this,'${c.title}')">⭐</button><button class="btn-light" onclick="completeLesson()">فتح</button></div></div>`).join('')}
+ <div class="card"><b>📝 QCM سريع - جرب روحك:</b><p>ما هو مفهوم الحرية؟</p>
+ <button class="btn-light" style="width:100%;margin:3px" onclick="answerQ(this,true)">أ) القدرة على الاختيار بوعي</button>
+ <button class="btn-light" style="width:100%;margin:3px" onclick="answerQ(this,false)">ب) فعل أي شيء بلا قيود</button>
+ <button class="btn-light" style="width:100%;margin:3px" onclick="answerQ(this,false)">ج) الخضوع للآخرين</button><div id="qRes"></div></div>`;
+}
+function answerQ(btn,ok){
+ document.getElementById('qRes').innerHTML= ok ? '✅ صحيح! +5 نقاط' : '❌ غالط، حاول مرة أخرى';
+ if(ok){addPts(5);}
+}
+function completeLesson(){addPts(10); alert('أحسنت! كملت درس +10 نقاط 🎉');}
+function addPts(n){pts+=n; document.getElementById('pts').textContent=pts; document.getElementById('myPts').textContent=pts+' نقطة';}
+function toggleFav(btn,title){
+ if(favs.includes(title)){favs=favs.filter(f=>f!==title); btn.style.background='';}else{favs.push(title); btn.style.background='#FFD93D';}
+ document.getElementById('favCount').textContent=favs.length;
+ document.getElementById('favList').innerHTML=favs.length?favs.map(f=>`<div class="item"><b>${f}</b></div>`).join(''):'مازال ما حفظت حتى درس.';
+}
+function doSearch(q){
+ if(!q) return;
+ alert('نتائج البحث عن "'+q+'":\n• درس الفلسفة: الإنسان والعالم\n• مقال عربية: الحرية\n• تمرين تاريخ\n(في النسخة الكاملة البحث يعرضهم في الصفحة)');
+}
+function sendChat(){
+ let v=document.getElementById('chatInput').value.trim(); if(!v) return;
+ document.getElementById('chatBox').innerHTML+=`<div class="msg"><b>أنت:</b> ${v}</div>`;
+ document.getElementById('chatInput').value=''; addPts(10);
+ document.getElementById('chatBox').scrollTop=9999;
+}
+let timerInt=null, secs=25*60;
+function startTimer(){
+ if(timerInt) return;
+ timerInt=setInterval(()=>{
+  secs--; let m=Math.floor(secs/60), s=secs%60;
+  document.getElementById('timer').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  if(secs<=0){clearInterval(timerInt); timerInt=null; alert('برافو! كملت 25 دقيقة تركيز 🎉 خذ 5 دقايق راحة'); secs=25*60;}
+ },1000);
+}
+function addContent(){
+ let t=document.getElementById('addTitle').value||'درس جديد';
+ let subj=document.getElementById('addSubj').value;
+ let axis=document.getElementById('addAxis').value;
+ let type=document.getElementById('addType').value;
+ let key=subj+'|'+axis;
+ if(!contents[key]) contents[key]=[];
+ contents[key].push({type:type,title:t,desc:'تمت إضافته من الهاتف ✅ - نص / PDF / فيديو / HTML'});
+ document.getElementById('addResult').innerHTML='<p style="color:green;font-weight:800">✅ تم نشر "'+t+'" في '+subj+' - '+axis+'</p>';
+ alert('تمت الإضافة بنجاح ✅');
+}
+function savePrices(){
+ document.querySelectorAll('.priceM').forEach(e=>e.textContent=document.getElementById('pM').value);
+ document.querySelectorAll('.price3').forEach(e=>e.textContent=document.getElementById('p3').value);
+ document.querySelectorAll('.priceY').forEach(e=>e.textContent=document.getElementById('pY').value);
+ alert('تم حفظ الأسعار الجديدة ✅');
+}
+renderSubjects();
+</script>
+<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
 </html>
