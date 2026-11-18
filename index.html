@@ -1,127 +1,15 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bac Adab</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>باك آداب: مراجعة ودعم</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<header>
-<h1>📚 Bac Adab</h1>
-<p>باك آداب - راجع، العب، انجح</p>
-<div id="userBar"></div>
-</header>
-
-<!-- تسجيل / دخول -->
-<div id="authBox" class="card">
-<h2>دخول / حساب جديد</h2>
-<input id="nameInput" placeholder="الاسم الكامل - كان حساب جديد">
-<input id="emailInput" placeholder="الإيميل - مثلا imeds@gmail.com">
-<input id="passInput" type="password" placeholder="كلمة السر - مثلا admin123">
-<button onclick="register()">إنشاء حساب جديد</button>
-<button onclick="login()" class="gold">دخول</button>
-<p class="hint">للتجربة كأدمن: imeds@gmail.com / admin123</p>
-<p id="authMsg"></p>
-</div>
-
-<!-- لوحة الأدمن - مخبية من الأول -->
-<div id="adminBox" class="card" style="display:none;">
-<h2>⚙️ لوحة الأدمن - انت الأدمن</h2>
-<button id="addContentBtn" onclick="openAddContent()">➕ إضافة محتوى - اضغط هوني</button>
-<p>عدد التلامذة المسجلين: <span id="studentsCount">0</span></p>
-<div id="studentsList"></div>
-</div>
-
-<!-- قائمة إضافة محتوى -->
-<div id="addContentModal" class="card" style="display:none;">
-<h2>شنو تحب تزيد؟ اختار نوع المحتوى:</h2>
-<div class="grid">
-<button onclick="chooseType('فيديو 🎥')">🎥 فيديو</button>
-<button onclick="chooseType('نص 📝')">📝 نص / ملخص</button>
-<button onclick="chooseType('PDF 📄')">📄 PDF</button>
-<button onclick="chooseType('HTML 💻')">💻 HTML تفاعلي</button>
-<button onclick="chooseType('QCM ❓')">❓ اختبار QCM</button>
-<button onclick="chooseType('محاكاة باك 🏫')">🏫 محاكاة باك</button>
-</div>
-
-<div id="contentForm" style="display:none;">
-<h3 id="chosenType"></h3>
-<select id="subjectInput">
-<option>فلسفة</option><option>عربية</option><option>فرنسية</option>
-<option>انجليزية</option><option>تاريخ وجغرافيا</option><option>تربية إسلامية</option>
-</select>
-<input id="axisInput" placeholder="المحور - مثلا المنزلة">
-<input id="titleInput" placeholder="عنوان الدرس">
-<textarea id="bodyInput" placeholder="اكتب هنا: رابط فيديو / نص الملخص / سؤال QCM..."></textarea>
-<select id="freeInput"><option value="free">مجاني</option><option value="paid">مدفوع 🔒</option></select>
-<button onclick="publishLesson()" class="gold">نشر الدرس 🚀</button>
-</div>
-<button onclick="closeAddContent()">سكر</button>
-</div>
-
-<!-- لوحة التلميذ -->
-<div id="studentBox" class="card" style="display:none;">
-<h2 id="welcomeText"></h2>
-<div class="stats">
-<span>🔥 <span id="streakEl">1</span> يوم</span>
-<span>⭐ <span id="pointsEl">0</span> نقطة</span>
-<span>🏆 <span id="levelEl">مبتدئ</span></span>
-</div>
-<div class="progress"><div id="progressBar"></div></div>
-
-<h3>📚 الدروس</h3>
-<div id="lessonsList"></div>
-
-<h3>🎯 تحدي اليوم</h3>
-<p>شنو الفرق بين الإنسان والذات؟</p>
-<button onclick="answerQuiz(true)">الذات هي وعي الإنسان بذاتو</button>
-<button onclick="answerQuiz(false)">الإنسان هو حيوان برك</button>
-<button onclick="answerQuiz(false)">ما فما حتى فرق</button>
-<p id="quizMsg"></p>
-
-<h3>🏫 محاكاة الباك</h3>
-<p>مؤقت الباك الأبيض: <b id="bacTimer">03:00:00</b></p>
-<button onclick="startBac()">ابدأ باك أبيض - تجربة 2 دقيقة</button>
-<button onclick="submitBac()" class="gold">سلم الورقة</button>
-<p id="bacMsg"></p>
-
-<h3>📚 غرفة المراجعة</h3>
-<p>مؤقت بومودورو: <b id="pomoTimer">25:00</b></p>
-<button onclick="startPomo()">ابدأ قراية 25 دقيقة</button>
-<button onclick="stopPomo()">وقف</button>
-<input id="taskInput" placeholder="اكتب مهمة اليوم">
-<button onclick="addTask()">زيد مهمة</button>
-<ul id="tasksList"></ul>
-
-<h3>👯 مراجعة جماعية</h3>
-<p>4 يراجعو معاك توا: أمين، مريم، يوسف، وانت</p>
-<input id="chatInput" placeholder="اكتب رسالة لصحابك...">
-<button onclick="sendChat()">ابعت 💬</button>
-<div id="chatBox"></div>
-<button onclick="encourage()">👏 برافو - شجع صاحبك +5</button>
-
-<button onclick="logout()">خروج</button>
-</div>
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-const firebaseConfig = {
-  apiKey: "AlzSyAl2sCPqiw-_PKQQPrKl-UFBYOEXfl95Dw",
-  authDomain: "bac-in-pocket.firebaseapp.com",
-  projectId: "bac-in-pocket",
-  storageBucket: "bac-in-pocket.firebasestorage.app",
-  messagingSenderId: "812454691473",
-  appId: "1:812454691473:web:a9OecOcc24f99fd5a6753O",
-  measurementId: "G-Y7E06POPVG"
-};
-const app = initializeApp(firebaseConfig);
-window.firebaseAuth = getAuth(app);
-window.firebaseDB = getFirestore(app);
-console.log("Firebase connecté !");
-</script>
+<header><button class="ib" id="hm" aria-label="الرئيسية">⌂</button><h1>باك آداب</h1><button class="ib" id="th" aria-label="الوضع الليلي">◐</button></header>
+<main id="app"></main>
 <script src="script.js"></script>
 </body>
 </html>
