@@ -155,7 +155,7 @@ nav button.on{color:#FF7A1A}
 <h2>🔐 لوحة الأدمن - BAC IN POCKET</h2>
 <div class="card"><b>📊 إحصائيات:</b> تلامذة اليوم: 48 • أكثر مادة مراجعة: الفلسفة • رسائل اليوم: 132</div>
 <div class="card"><h3>➕ إضافة محتوى جديد - من الهاتف</h3>
-<select id="addSubj" onchange="updateAdminAxes()"><option>الفلسفة</option><option>العربية</option><option>التاريخ</option><option>الجغرافيا</option><option>الفرنسية</option><option>الانجليزية</option><option>التفكير الإسلامي</option></select>
+<select id="addSubj"><option>الفلسفة</option><option>العربية</option><option>التاريخ</option><option>الجغرافيا</option><option>الفرنسية</option><option>الانجليزية</option><option>التفكير الإسلامي</option></select>
 <select id="addAxis"><option>المحور 1</option><option>المحور 2</option><option>المحور 3</option></select>
 <select id="addType"><option>درس ملخص</option><option>فيديو</option><option>تمرين + إصلاح</option><option>باك قديم</option><option>QCM</option><option>مقال نموذجي</option></select>
 <input id="addTitle" placeholder="عنوان المحتوى...">
@@ -212,19 +212,6 @@ let contents={
  {type:"باك قديم",title:"باك 2023 تاريخ",desc:"موضوع + إصلاح"},
 ],
 };
-// --- FIX: حفظ المحتوى المضاف ---
-try{
-  let saved = JSON.parse(localStorage.getItem('bac_contents')||'{}');
-  for(let k in saved){ contents[k]=saved[k]; }
-}catch(e){}
-function saveContents(){ localStorage.setItem('bac_contents', JSON.stringify(contents)); }
-// --- FIX: تحديث قائمة المحاور حسب المادة في الأدمن ---
-function updateAdminAxes(){
-  let subj = document.getElementById('addSubj').value;
-  let found = subjects.find(s=>s.name===subj);
-  let sel = document.getElementById('addAxis');
-  if(found && sel){ sel.innerHTML = found.axes.map(a=>`<option>${a}</option>`).join(''); }
-}
 function renderSubjects(){
  document.getElementById('subjects').innerHTML=subjects.map((s,i)=>`<div class="subj" style="background:${s.color}" onclick="openSubject(${i})"><div><div style="font-size:30px">${s.icon}</div><b>${s.name}</b><br><small>${s.lessons} درس • ${s.ex} تمارين</small></div><div><div class="bar"><i style="width:${s.prog}%"></i></div><small>كملت ${s.prog}%</small><br><b>واصل ⬅</b></div></div>`).join('');
 }
@@ -237,7 +224,7 @@ function showPage(p){
 function enterApp(){
  let n=document.getElementById('nickname').value.trim();
  if(!n){alert('اكتب اسمك المستعار أولا 🙂');return;}
- localStorage.setItem('bac_name',n); renderSubjects(); setTimeout(()=>{ if(typeof updateAdminAxes==='function') updateAdminAxes(); },300); showPage('home');
+ localStorage.setItem('bac_name',n); renderSubjects(); showPage('home');
 }
 function showAdminLogin(){document.getElementById('adminBox').classList.remove('hidden');}
 function checkAdmin(){
@@ -255,38 +242,12 @@ function openAxis(subj,axis){
  let list=contents[key]||[{type:"درس ملخص",title:"درس جديد: "+axis,desc:"سيتم إضافة محتوى قريبا من الأدمن"}];
  document.getElementById('axisContent').innerHTML=`<h3>${axis}</h3>
  <div class="tabs"><button class="on">الكل</button><button>دروس</button><button>فيديو</button><button>تمارين</button><button>QCM</button><button>باكات</button><button>مقالات</button></div>
- ${list.map((c,idx)=>`<div class="item"><div><b>${c.type}:</b> ${c.title}<br><small>${c.desc}</small></div><div style="display:flex;gap:6px"><button onclick="toggleFav(this,'${c.title}')">⭐</button><button class="btn-orange" onclick="openContent('${subj}','${axis}',${idx})">فتح 📖</button></div></div>`).join('')}
+ ${list.map((c,idx)=>`<div class="item"><div><b>${c.type}:</b> ${c.title}<br><small>${c.desc}</small></div><div style="display:flex;gap:6px"><button onclick="toggleFav(this,'${c.title}')">⭐</button><button class="btn-light" onclick="completeLesson()">فتح</button></div></div>`).join('')}
  <div class="card"><b>📝 QCM سريع - جرب روحك:</b><p>ما هو مفهوم الحرية؟</p>
  <button class="btn-light" style="width:100%;margin:3px" onclick="answerQ(this,true)">أ) القدرة على الاختيار بوعي</button>
  <button class="btn-light" style="width:100%;margin:3px" onclick="answerQ(this,false)">ب) فعل أي شيء بلا قيود</button>
  <button class="btn-light" style="width:100%;margin:3px" onclick="answerQ(this,false)">ج) الخضوع للآخرين</button><div id="qRes"></div></div>`;
 }
-let currentContent=null;
-function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function openContent(subj,axis,idx){
-  let key=subj+'|'+axis;
-  let c=(contents[key]||[])[idx];
-  if(!c){ alert('المحتوى غير موجود'); return; }
-  currentContent=c;
-  let ytHtml='';
-  if(c.yt){
-    let vid=c.yt;
-    let m=vid.match(/(?:v=|\/)([A-Za-z0-9_-]{6,})/);
-    let id=m?m[1]:'';
-    if(id) ytHtml=`<div style="margin:10px 0"><iframe width="100%" height="220" src="https://www.youtube.com/embed/${id}" frameborder="0" allowfullscreen></iframe><br><a href="${vid}" target="_blank">فتح الفيديو على يوتيوب ↗</a></div>`;
-    else ytHtml=`<p><a href="${vid}" target="_blank">🎬 شاهد الفيديو: ${esc(vid)}</a></p>`;
-  }
-  let htmlBlock='';
-  if(c.html){
-    htmlBlock=`<div style="background:#FFF7ED;border:1px solid #FFD9A8;border-radius:12px;padding:12px;margin:10px 0"><b>💻 محتوى HTML:</b><div style="background:#fff;padding:10px;border-radius:8px;margin-top:8px">${c.html}</div></div>`;
-  }
-  let body = c.body || c.desc || 'لا يوجد محتوى بعد';
-  document.getElementById('contentTitle').textContent=c.type+' : '+c.title;
-  document.getElementById('contentBody').innerHTML=`<p style="white-space:pre-wrap;line-height:1.8;font-size:16px">${esc(body)}</p>`+ytHtml+htmlBlock+`<p style="color:#666;font-size:13px">المادة: ${subj} • المحور: ${axis}</p>`;
-  document.getElementById('contentModal').classList.remove('hidden');
-  window.scrollTo(0,0);
-}
-function closeContent(){ document.getElementById('contentModal').classList.add('hidden'); completeLesson(); }
 function answerQ(btn,ok){
  document.getElementById('qRes').innerHTML= ok ? '✅ صحيح! +5 نقاط' : '❌ غالط، حاول مرة أخرى';
  if(ok){addPts(5);}
@@ -318,7 +279,22 @@ function startTimer(){
  },1000);
 }
 function addContent(){
- let t=document.getElementById('addTitle').value.trim()||'درس جديد';
+ let t=document.getElementById('addTitle').value||'درس جديد';
  let subj=document.getElementById('addSubj').value;
  let axis=document.getElementById('addAxis').value;
- let type=document.getElementById('addType').val
+ let type=document.getElementById('addType').value;
+ let key=subj+'|'+axis;
+ if(!contents[key]) contents[key]=[];
+ contents[key].push({type:type,title:t,desc:'تمت إضافته من الهاتف ✅ - نص / PDF / فيديو / HTML'});
+ document.getElementById('addResult').innerHTML='<p style="color:green;font-weight:800">✅ تم نشر "'+t+'" في '+subj+' - '+axis+'</p>';
+ alert('تمت الإضافة بنجاح ✅');
+}
+function savePrices(){
+ document.querySelectorAll('.priceM').forEach(e=>e.textContent=document.getElementById('pM').value);
+ document.querySelectorAll('.price3').forEach(e=>e.textContent=document.getElementById('p3').value);
+ document.querySelectorAll('.priceY').forEach(e=>e.textContent=document.getElementById('pY').value);
+ alert('تم حفظ الأسعار الجديدة ✅');
+}
+renderSubjects();
+</script>
+<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")
