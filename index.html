@@ -155,7 +155,7 @@ nav button.on{color:#FF7A1A}
 <h2>🔐 لوحة الأدمن - BAC IN POCKET</h2>
 <div class="card"><b>📊 إحصائيات:</b> تلامذة اليوم: 48 • أكثر مادة مراجعة: الفلسفة • رسائل اليوم: 132</div>
 <div class="card"><h3>➕ إضافة محتوى جديد - من الهاتف</h3>
-<select id="addSubj"><option>الفلسفة</option><option>العربية</option><option>التاريخ</option><option>الجغرافيا</option><option>الفرنسية</option><option>الانجليزية</option><option>التفكير الإسلامي</option></select>
+<select id="addSubj" onchange="updateAdminAxes()"><option>الفلسفة</option><option>العربية</option><option>التاريخ</option><option>الجغرافيا</option><option>الفرنسية</option><option>الانجليزية</option><option>التفكير الإسلامي</option></select>
 <select id="addAxis"><option>المحور 1</option><option>المحور 2</option><option>المحور 3</option></select>
 <select id="addType"><option>درس ملخص</option><option>فيديو</option><option>تمرين + إصلاح</option><option>باك قديم</option><option>QCM</option><option>مقال نموذجي</option></select>
 <input id="addTitle" placeholder="عنوان المحتوى...">
@@ -212,6 +212,19 @@ let contents={
  {type:"باك قديم",title:"باك 2023 تاريخ",desc:"موضوع + إصلاح"},
 ],
 };
+// --- FIX: حفظ المحتوى المضاف ---
+try{
+  let saved = JSON.parse(localStorage.getItem('bac_contents')||'{}');
+  for(let k in saved){ contents[k]=saved[k]; }
+}catch(e){}
+function saveContents(){ localStorage.setItem('bac_contents', JSON.stringify(contents)); }
+// --- FIX: تحديث قائمة المحاور حسب المادة في الأدمن ---
+function updateAdminAxes(){
+  let subj = document.getElementById('addSubj').value;
+  let found = subjects.find(s=>s.name===subj);
+  let sel = document.getElementById('addAxis');
+  if(found && sel){ sel.innerHTML = found.axes.map(a=>`<option>${a}</option>`).join(''); }
+}
 function renderSubjects(){
  document.getElementById('subjects').innerHTML=subjects.map((s,i)=>`<div class="subj" style="background:${s.color}" onclick="openSubject(${i})"><div><div style="font-size:30px">${s.icon}</div><b>${s.name}</b><br><small>${s.lessons} درس • ${s.ex} تمارين</small></div><div><div class="bar"><i style="width:${s.prog}%"></i></div><small>كملت ${s.prog}%</small><br><b>واصل ⬅</b></div></div>`).join('');
 }
@@ -224,7 +237,7 @@ function showPage(p){
 function enterApp(){
  let n=document.getElementById('nickname').value.trim();
  if(!n){alert('اكتب اسمك المستعار أولا 🙂');return;}
- localStorage.setItem('bac_name',n); renderSubjects(); showPage('home');
+ localStorage.setItem('bac_name',n); renderSubjects(); setTimeout(()=>{ if(typeof updateAdminAxes==='function') updateAdminAxes(); },300); showPage('home');
 }
 function showAdminLogin(){document.getElementById('adminBox').classList.remove('hidden');}
 function checkAdmin(){
@@ -279,15 +292,19 @@ function startTimer(){
  },1000);
 }
 function addContent(){
- let t=document.getElementById('addTitle').value||'درس جديد';
+ let t=document.getElementById('addTitle').value.trim()||'درس جديد';
  let subj=document.getElementById('addSubj').value;
  let axis=document.getElementById('addAxis').value;
  let type=document.getElementById('addType').value;
+ let text=document.getElementById('addText').value||'';
+ let yt=document.getElementById('addYT').value||'';
+ let htmlCode=document.getElementById('addHTML').value||'';
  let key=subj+'|'+axis;
  if(!contents[key]) contents[key]=[];
- contents[key].push({type:type,title:t,desc:'تمت إضافته من الهاتف ✅ - نص / PDF / فيديو / HTML'});
- document.getElementById('addResult').innerHTML='<p style="color:green;font-weight:800">✅ تم نشر "'+t+'" في '+subj+' - '+axis+'</p>';
- alert('تمت الإضافة بنجاح ✅');
+ contents[key].push({type:type,title:t,desc:(text||'تمت إضافته من الهاتف ✅ - نص / PDF / فيديو / HTML') + (yt? ' • فيديو: '+yt : '') + (htmlCode? ' • HTML مرفق' : '')});
+ saveContents();
+ document.getElementById('addResult').innerHTML='<p style="color:green;font-weight:800">✅ تم نشر "'+t+'" في '+subj+' - '+axis+'<br>تو ادخل كتلميذ لنفس المادة والمحور باش تشوفو</p>';
+ alert('تمت الإضافة بنجاح ✅\n'+subj+' > '+axis+' > '+t);
 }
 function savePrices(){
  document.querySelectorAll('.priceM').forEach(e=>e.textContent=document.getElementById('pM').value);
@@ -295,7 +312,7 @@ function savePrices(){
  document.querySelectorAll('.priceY').forEach(e=>e.textContent=document.getElementById('pY').value);
  alert('تم حفظ الأسعار الجديدة ✅');
 }
-renderSubjects();
+renderSubjects(); setTimeout(()=>{ if(typeof updateAdminAxes==='function') updateAdminAxes(); },300);
 </script>
 <script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
 </html>
